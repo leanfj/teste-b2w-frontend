@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import './App.css';
 
 import apis from './api/Api'
@@ -10,7 +9,8 @@ class App extends Component {
     this.state = {
       data: [],
       films: [],
-      formatedPopulation: ''
+      formatedPopulation: '',
+      isLoading: false
     }
   }
 
@@ -67,12 +67,14 @@ class App extends Component {
   }
 
   nextPlanet = () => {
+    this.setState({isLoading: true})
     let randomNumber = (Math.trunc(Math.random() * 61) + 1);
     apis(randomNumber).then(
       response => {
         this.setState({
           data: response.data,
-          films: response.data.films
+          films: response.data.films,
+          isLoading: false
         });
         let population = response.data.population;
         this.formatPopulation(population);
@@ -84,35 +86,42 @@ class App extends Component {
       <div className="container">
         <div className="app">
           <h1 className="app__title">Star Wars Planet's</h1>
-          <div className="app__planet">
-            {this.state.data.name}  
-          </div>
-          <dl className="app__description">
-            <dt className="app__description__name">
-            Population
-            </dt>
-            <CSSTransitionGroup
-            transitionName="example"
-            transitionEnterTimeout={300}
-            transitionLeaveTimeout={300}> 
-              <dd className="app__description__name--data">
-                { this.state.formatedPopulation }
-              </dd>
-            </CSSTransitionGroup>
-            <dt className="app__description__name">
-              Climate
-            </dt> 
-            <dd className="app__description__name--data">
-              {this.state.data.climate}
-            </dd>
-            <dt className="app__description__name">
-              Terrain
-            </dt> 
-            <dd className="app__description__name--data">
-              {this.state.data.terrain}
-            </dd>
-          </dl>
-          <p className="quant__films">Feature in {this.state.films.length} Film's</p>
+          {this.state.isLoading &&(
+              <div class="cell">
+                <div class="wrapper">
+                  <div class="spinner spinner2"></div>
+                </div>
+              </div>
+          )}
+          {!this.state.isLoading && (
+            <div className="app__content">
+              <div className="app__planet">
+                {this.state.data.name}  
+              </div>
+              <dl className="app__description">
+                <dt className="app__description__name">
+                Population
+                </dt>
+                <dd className="app__description__name--data">
+                  { this.state.formatedPopulation }
+                </dd>
+                <dt className="app__description__name">
+                  Climate
+                </dt> 
+                <dd className="app__description__name--data">
+                  {this.state.data.climate}
+                </dd>
+                <dt className="app__description__name">
+                  Terrain
+                </dt> 
+                <dd className="app__description__name--data">
+                  {this.state.data.terrain}
+                </dd>
+              </dl>
+              <p className="app__description__films">Feature in {this.state.films.length} Film's</p>
+            </div>
+          )}
+          
           <button onClick={this.nextPlanet} className="app__button" >Next</button>
         </div>
       </div>

@@ -5,23 +5,48 @@ $cinza : #b9b9b98c
   margin: 20px auto
   
 .app
-  border: 2px solid $cinza
   border-radius: 10px
   display: flex
   flex-direction: column
   align-items: center
   padding: 20px
+  background-color: #040404
+  color: #fff
   &__title
-    font-size: 45px
+    font-size: 40px
+    text-align: center
+    color: #faa902
+    text-transform: uppercase
+    background-color: #040404
+    z-index: 999999
+    position: relative
+    &::after
+      position: absolute
+      content: ' '
+      left: 0
+      right: 0
+      top: -47px
+      bottom: 83%
+      background-image: linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 0%)
+      pointer-events: none
+  &__content
+    width: 100%
+    height: 350px
+    transform: perspective(800px) rotateX(35deg)
     
   &__planet
     font-size: 30px
     font-weight: bold
+    text-align: center
+    position: relative
+    animation: show 30s linear infinite
 
   &__description
     border-radius: 5px
     padding: 10px
     align-self: flex-start
+    position: relative
+    animation: show 30s linear infinite
     &__name
       font-weight: bold
       margin-bottom: 10px
@@ -30,40 +55,60 @@ $cinza : #b9b9b98c
         text-transform: capitalize
         &:last-child
           margin-bottom: 0
-
+    &__films
+      text-align: center
+      position: relative
+      animation: show 30s linear infinite
   &__button
     text-transform: uppercase
     font-size: 20px
     font-weight: bold
-    background-color: transparent
-    border: 2px solid $cinza
+    background-color: #faa902
+    border: none
     border-radius: 5px
     padding: 5px 20px
+    z-index: 9999
     transition: all .3s    
     &:hover
-      background-color: $cinza
+      background-color: #fff
       cursor: pointer
     &:active
       transform: translateY(5px)
-
-/* Animations */
-
-.example-enter 
-  opacity: 0.01
-
-
-.example-enter.example-enter-active 
-  opacity: 1
-  transition: opacity 500ms ease-in
-
-
-.example-leave 
-  opacity: 1
-
-
-.example-leave.example-leave-active 
-  opacity: 0.01
-  transition: opacity 300ms ease-in
-
+      outline: #faa902
 
   
+//loader
+.cell
+  width: 40%
+  height: 350px
+  .wrapper
+    position: relative
+    display: flex
+    justify-content: center
+    height: 10rem
+    margin: 1rem 1rem 0
+    padding-top: 2.2rem
+    .spinner
+      width: 4rem
+      height: 4rem
+    .spinner2
+      border: 3px solid transparent
+      border-top-color: rgba(#fff, .5)
+      border-bottom-color: rgba(#fff, .5)
+      border-radius: 50%
+      animation: rotation .8s ease infinite
+
+
+// ANIMATIONS
+@keyframes rotation
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)
+
+@keyframes show
+  from
+    top: 80% 
+  to
+    top: -120%
+
