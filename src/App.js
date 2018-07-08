@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import './App.css';
 
 import apis from './api/Api'
@@ -17,12 +18,24 @@ class App extends Component {
     this.nextPlanet();
   }
 
-  formatPopulatino = (argPopulation) => {
+  formatPopulation = (argPopulation) => {
     const population = argPopulation;
     const lengPopulation = population.length;
     console.log(population)
     if (population !== 'unknown'){
       let format = '';
+      if(lengPopulation === 4) {
+        format = population.substr(0, 1) + '.' + population.substr(1, 3);
+        this.setState({formatedPopulation: format});  
+      }
+      if(lengPopulation === 5) {
+        format = population.substr(0, 2) + '.' + population.substr(2, 3);
+        this.setState({formatedPopulation: format});  
+      }
+      if(lengPopulation === 6) {
+        format = population.substr(0, 3) + '.' + population.substr(3, 3);
+        this.setState({formatedPopulation: format});  
+      }
       if(lengPopulation === 7) {
         format = population.substr(0, 1) + '.' + population.substr(1, 3) +'.'+ population.substr(4, 3);
         this.setState({formatedPopulation: format});  
@@ -52,6 +65,7 @@ class App extends Component {
       this.setState({formatedPopulation: 'Unknow'});
     }
   }
+
   nextPlanet = () => {
     let randomNumber = (Math.trunc(Math.random() * 61) + 1);
     apis(randomNumber).then(
@@ -61,42 +75,45 @@ class App extends Component {
           films: response.data.films
         });
         let population = response.data.population;
-        this.formatPopulatino(population);
+        this.formatPopulation(population);
       });
   }
     
   render() {
     return (
-      <div className="app">
-        <h1 className="app__title">Star Wars Planet's</h1>
-        <div className="container">
-          <div className="planet__name">
+      <div className="container">
+        <div className="app">
+          <h1 className="app__title">Star Wars Planet's</h1>
+          <div className="app__planet">
             {this.state.data.name}  
           </div>
-          <div className="planet__description">
-            <dl className="description">
-              <dt className="population">
-                Population
-              </dt> 
-              <dd className="population__quant">
+          <dl className="app__description">
+            <dt className="app__description__name">
+            Population
+            </dt>
+            <CSSTransitionGroup
+            transitionName="example"
+            transitionEnterTimeout={300}
+            transitionLeaveTimeout={300}> 
+              <dd className="app__description__name--data">
                 { this.state.formatedPopulation }
               </dd>
-              <dt className="climate">
-                Climate
-              </dt> 
-              <dd className="climate__type">
-                {this.state.data.climate}
-              </dd>
-              <dt className="terrain">
-                Terrain
-              </dt> 
-              <dd className="terrain__type">
-                {this.state.data.terrain}
-              </dd>
-            </dl>
-          </div>
+            </CSSTransitionGroup>
+            <dt className="app__description__name">
+              Climate
+            </dt> 
+            <dd className="app__description__name--data">
+              {this.state.data.climate}
+            </dd>
+            <dt className="app__description__name">
+              Terrain
+            </dt> 
+            <dd className="app__description__name--data">
+              {this.state.data.terrain}
+            </dd>
+          </dl>
           <p className="quant__films">Feature in {this.state.films.length} Film's</p>
-          <button onClick={this.nextPlanet}>Next</button>
+          <button onClick={this.nextPlanet} className="app__button" >Next</button>
         </div>
       </div>
     );

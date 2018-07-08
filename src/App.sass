@@ -1,5 +1,69 @@
-.app
-  &__title
-    text-align: center
+$cinza : #b9b9b98c
+
 .container
   max-width: 500px
+  margin: 20px auto
+  
+.app
+  border: 2px solid $cinza
+  border-radius: 10px
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 20px
+  &__title
+    font-size: 45px
+    
+  &__planet
+    font-size: 30px
+    font-weight: bold
+
+  &__description
+    border-radius: 5px
+    padding: 10px
+    align-self: flex-start
+    &__name
+      font-weight: bold
+      margin-bottom: 10px
+      &--data
+        margin-bottom: 25px
+        text-transform: capitalize
+        &:last-child
+          margin-bottom: 0
+
+  &__button
+    text-transform: uppercase
+    font-size: 20px
+    font-weight: bold
+    background-color: transparent
+    border: 2px solid $cinza
+    border-radius: 5px
+    padding: 5px 20px
+    transition: all .3s    
+    &:hover
+      background-color: $cinza
+      cursor: pointer
+    &:active
+      transform: translateY(5px)
+
+/* Animations */
+
+.example-enter 
+  opacity: 0.01
+
+
+.example-enter.example-enter-active 
+  opacity: 1
+  transition: opacity 500ms ease-in
+
+
+.example-leave 
+  opacity: 1
+
+
+.example-leave.example-leave-active 
+  opacity: 0.01
+  transition: opacity 300ms ease-in
+
+
+  
